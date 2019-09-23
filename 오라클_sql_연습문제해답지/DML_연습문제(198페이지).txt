@@ -1,0 +1,156 @@
+------------------------
+-- p.198 DML 
+------------------------
+CREATE TABLE    student1
+    AS  SELECT  *
+        FROM    student
+        WHERE   stu_grade IN (1,2) ;
+        
+CREATE TABLE    subject1
+    AS  SELECT  *
+        FROM    subject ;
+        
+CREATE TABLE    enrol1
+    AS  SELECT  *
+        FROM    enrol ;
+select * from student1 ;
+select * from subject1 ;
+select * from enrol1 ;  
+
+--1
+DESC student1;
+INSERT INTO student1
+VALUES (20151059,'조병준','컴퓨터정보',1,'B','M',164,70);
+
+INSERT INTO student1 (stu_no,stu_name,stu_dept,stu_grade,stu_class,stu_height,stu_weight,stu_gender)
+VALUES (20151059,'조병준','컴퓨터정보',1,'B',164,70,'M');
+
+SELECT * FROM student1;
+--2
+INSERT INTO student1 (stu_no,stu_name,stu_dept,stu_grade,stu_class,stu_gender)
+VALUES (20102038,'남지선','전기전자',1,'C','F');
+
+INSERT INTO student1 
+VALUES (20102038,'남지선','전기전자',1,'C','F',NULL,NULL);
+--3
+INSERT INTO student1 
+VALUES  (20103009,'박소신','기계',(SELECT stu_grade FROM student WHERE stu_no=20153075),
+        (SELECT stu_class FROM student WHERE stu_no=20153075),'M',NULL,NULL);
+
+INSERT INTO student1 (stu_no,stu_name,stu_dept,stu_grade,stu_class,stu_gender)
+VALUES  (20103009,'박소신','기계',(SELECT stu_grade FROM student WHERE stu_no=20153075),
+        (SELECT stu_class FROM student WHERE stu_no=20153075),'M');
+--4
+INSERT INTO student1
+    SELECT  * 
+    FROM    student
+    WHERE   stu_grade = 3 ;
+--5
+UPDATE  student1
+SET     stu_class = 'B'
+WHERE   stu_no = 20153075 ;
+--6
+UPDATE  student1
+SET     stu_height = stu_height + 2
+WHERE   stu_no = 20153075 ;
+--7
+UPDATE  student1
+SET     stu_grade = stu_grade + 1 ;
+--8
+SELECT * FROM student1 ;
+
+UPDATE  student1
+SET     stu_dept = '컴퓨터정보', stu_no = 20151075
+WHERE   stu_no = 20153075 ;
+
+
+CREATE TABLE dept1 (
+dept varchar2(20),
+code number) ;
+
+INSERT INTO dept1 
+VALUES ('컴퓨터정보', 1) ;
+INSERT INTO dept1 
+VALUES ('전기전자', 2) ;
+INSERT INTO dept1 
+VALUES ('기계', 3) ;
+
+SELECT * FROM dept1 ;
+SELECT * FROM student ;
+
+SELECT stu_no, SUBSTR(stu_no,1,4)|| 1 || SUBSTR(stu_no,6)
+FROM student ;
+
+--------------------------------------------------------------------------------
+-- 에러 ㅎㅎ
+SELECT SUBSTR(stu_no,1,4)||(SELECT CASE WHEN stu_dept = '컴퓨터정보' THEN l
+                                        WHEN stu_dept = '전기전자' THEN 2
+                                        ELSE 3
+                                        END AS code 
+                            FROM student) || SUBSTR(stu_no,6)
+FROM student ;  
+
+select * from student;
+SELECT stu_dept, 
+    CASE WHEN stu_dept = '컴퓨터정보' THEN l
+         WHEN stu_dept = '전기전자' THEN 2
+         ELSE 3
+    END AS code 
+FROM student ;
+
+--9
+UPDATE  enrol1
+SET     enr_grade = enr_grade + 10
+WHERE   sub_no = (SELECT  sub_no
+                  FROM    subject
+                  WHERE   sub_name = '전자회로실험') ;
+--10  
+UPDATE  enrol1
+SET     enr_grade = 0
+WHERE   stu_no = 20151062
+AND     sub_no = (SELECT  sub_no
+                  FROM    subject
+                  WHERE   sub_name = '소프트웨어공학') ;
+                 
+--11
+DELETE FROM student1
+WHERE       stu_no = 20151062 ;
+--12
+DESC subject;
+INSERT INTO  subject1
+VALUES  (112,'자동화시스템','고종민',3,'기계') ;
+--13
+UPDATE  subject
+SET     sub_no = 501
+WHERE   sub_no = 110 ;
+--14
+DELETE FROM     subject
+WHERE   sub_no = 101 ;
+--15
+UPDATE  enrol1
+SET     sub_no = 999
+WHERE   sub_no NOT IN (SELECT   sub_no
+                       FROM     subject1) ;
+--참고                       
+UPDATE  enrol1
+SET     sub_no = 999
+WHERE   sub_no IS NULL ;                       
+--16
+UPDATE  enrol1
+SET     stu_no = 99999999
+WHERE   stu_no NOT IN (SELECT   stu_no
+                       FROM     student1) ;
+--17
+DELETE FROM     enrol1
+WHERE   sub_no = 999 ;
+--18
+DELETE  enrol1
+WHERE   stu_no = 99999999 ;
+--19
+DELETE  subject
+WHERE   sub_no NOT IN (SELECT    sub_no
+                       FROM      enrol1) ;
+--20
+DELETE  student1 ;
+DELETE  enrol1 ;
+DELETE  subject1 ;

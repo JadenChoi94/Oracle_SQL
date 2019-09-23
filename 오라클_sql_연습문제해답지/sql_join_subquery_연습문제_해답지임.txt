@@ -1,0 +1,409 @@
+------------------------
+-- p.161 연습문제
+------------------------
+--1
+SELECT  *
+FROM    student s, enrol e
+WHERE   s.stu_no = e.stu_no ;
+
+SELECT          *
+FROM            student 
+NATURAL JOIN    enrol ;
+--2
+desc    student ;
+desc    enrol ;
+desc    subject ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_name, b.enr_grade
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_name, b.enr_grade
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c 
+ON      (b.sub_no = c.sub_no) ;
+--3
+SELECT  s.sub_name, e.enr_grade
+FROM    subject s, enrol e
+WHERE   s.sub_no = e.sub_no ;
+
+SELECT  s.stu_no, e.enr_grade
+FROM    student s
+JOIN    enrol e
+ON      (s.stu_no = e.stu_no) ;
+
+SELECT          stu_no, enr_grade
+FROM            student 
+NATURAL JOIN    enrol ;
+
+SELECT  stu_no, enr_grade
+FROM    student JOIN enrol
+USING   (stu_no) ;
+--4
+DESC    subject;
+
+SELECT  sub_name, stu_no, enr_grade
+FROM    subject JOIN enrol
+USING   (sub_no) ;
+--5
+SELECT  s.stu_no, e.enr_grade
+FROM    student s, enrol e
+WHERE   s.stu_no = e.stu_no
+AND     e.enr_grade >= 70 ;
+--6
+SELECT  stu_no, enr_grade
+FROM    student JOIN enrol
+USING   (stu_no)
+WHERE   enr_grade >= 60 ;
+--7
+SELECT          stu_no, enr_grade
+FROM            student sNATURAL JOIN    enrol 
+WHERE           enr_grade <= 70 ;
+--8
+DESC    student ;
+DESC    enrol ;
+DESC    subject ;
+
+SELECT  a.stu_name, b.sub_name, b.sub_prof
+FROM    student a, subject b, enrol c
+WHERE   a.stu_no = c.stu_no
+AND     b.sub_no = c.sub_no 
+AND     a.stu_name = '김인중' ;
+--9
+SELECT  a.stu_no, a.stu_name, b.stu_no, c.sub_name, c.sub_prof
+FROM    student a, enrol b, subject c
+WHERE   b.sub_no = c.sub_no
+AND     a.stu_name = '김인중' ;
+
+SELECT  a.stu_name, c.sub_name, c.sub_prof
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c 
+ON      (b.sub_no = c.sub_no)
+WHERE   a.stu_name = '김인중' ;
+--11
+SELECT  a.stu_name, c.sub_prof
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     sub_prof = '강종영' ;
+
+SELECT  a.stu_name, c.sub_prof
+FROM    student a 
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   sub_prof = '강종영' ;
+--12
+SELECT  a.stu_no, a.stu_name, c.sub_name
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     c.sub_name = '컴퓨터개론' ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_name
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   c.sub_name = '컴퓨터개론' ;
+--13
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a, enrol b, subject c
+WHERE       a.stu_no = b.stu_no
+AND         b.sub_no = c.sub_no
+AND         sub_name IN ('시스템분석설계', '소프트웨어공학')
+ORDER BY    1, 2 ;
+
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+JOIN        subject c
+ON          (b.sub_no = c.sub_no)
+AND         sub_name IN ('시스템분석설계', '소프트웨어공학')
+ORDER BY    a.stu_no, a.stu_name ;
+--14
+DESCRIBE    subject ;
+SELECT  a.stu_no, a.stu_name, c.sub_grade, c.sub_dept
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     (c.sub_grade =1 OR c.sub_dept = '컴퓨터정보') ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_grade, c.sub_dept
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   c.sub_grade =1 OR c.sub_dept = '컴퓨터정보' ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_grade, c.sub_dept
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   c.sub_grade =1 OR c.sub_dept = '컴퓨터정보' ;
+--15
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a, enrol b, subject c
+WHERE       a.stu_no = b.stu_no
+AND         b.sub_no = c.sub_no
+AND         sub_name IN ('기초공작법', '기초전자실험') 
+ORDER BY    1 ;
+
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+JOIN        subject c
+ON          (b.sub_no = c.sub_no)
+WHERE       sub_name IN ('기초공작법', '기초전자실험') 
+ORDER BY    1 ;
+--16
+SELECT  stu_no, sub_prof
+FROM    enrol JOIN subject
+USING   (sub_no)
+WHERE   sub_prof IN ('김태영', '김유석') ;
+--17
+desc enrol;
+SELECT  s.stu_name, e.enr_grade
+FROM    student s, enrol e
+WHERE   s.stu_no = e.stu_no ;
+
+SELECT  s.stu_name, e.enr_grade
+FROM    student s
+JOIN    enrol e
+ON      (s.stu_no = e.stu_no) ;
+
+SELECT  stu_name, enr_grade
+FROM    student
+NATURAL JOIN enrol ;
+
+SELECT  stu_name, enr_grade
+FROM    student  JOIN enrol
+USING   (stu_no) ;
+--18
+SELECT  a.stu_name, c.sub_name
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no 
+AND     a.stu_name = '옥한빛' ;
+
+SELECT  a.stu_name, c.sub_name
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   a.stu_name = '옥한빛' ;
+--19
+SELECT  c.sub_name, a.stu_gender
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     a.stu_gender = 'F' ;
+
+SELECT  c.sub_name, a.stu_gender
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   a.stu_gender = 'F' ;
+--20 
+SELECT  c.sub_name, a.stu_weight
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     a.stu_weight > 60 ;
+
+SELECT  c.sub_name, a.stu_weight
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   a.stu_weight > 60 ;
+--21
+SELECT  a.stu_no, a.stu_name, c.sub_dept
+FROM    student a,enrol b,subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     sub_dept = '컴퓨터정보' ;
+
+SELECT  a.stu_no, a.stu_name, c.sub_dept
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   sub_dept = '컴퓨터정보' ;
+--22
+SELECT  COUNT(stu_no)
+FROM    enrol
+WHERE   enr_grade >= 70 ;
+--23
+SELECT  a.stu_name, a.stu_gender, c.sub_prof 
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no
+AND     b.sub_no = c.sub_no
+AND     a.stu_gender = 'F' AND c.sub_prof= '구봉규' ;
+
+SELECT  a.stu_name, a.stu_gender, c.sub_prof 
+FROM    student a
+JOIN    enrol b
+ON      (a.stu_no = b.stu_no)
+JOIN    subject c
+ON      (b.sub_no = c.sub_no)
+WHERE   a.stu_gender = 'F' AND c.sub_prof= '구봉규' ;
+--24~28 서브쿼리 문제
+--24
+SELECT  a.stu_no, a.stu_name
+FROM    student a, enrol b
+WHERE   a.stu_no = b.stu_no
+AND     b.enr_grade > (SELECT   AVG(enr_grade)
+                       FROM     student a, enrol b
+                       WHERE    a.stu_no = b.stu_no
+                       AND      a.stu_name = '김종헌') 
+AND     a.stu_name <> '김종헌' ;    
+--25
+SELECT  a.stu_no, a.stu_name
+FROM    student a, enrol b
+WHERE   a.stu_no = b.stu_no
+AND     b.enr_grade < (SELECT   AVG(enr_grade)
+                       FROM     student a, enrol b
+                       WHERE    a.stu_no = b.stu_no
+                       AND      a.stu_name = '김인중') 
+AND     a.stu_name <> '김인중' ;
+--26
+SELECT  a.stu_no, a.stu_name, c.sub_name, b.enr_grade
+FROM    student a, enrol b, subject c
+WHERE   a.stu_no = b.stu_no   
+AND     b.sub_no = c.sub_no
+AND     b.enr_grade > (SELECT   AVG(enr_grade)
+                       FROM     enrol) ;
+SELECT   AVG(enr_grade)
+FROM     enrol ;
+ --27
+SELECT stu_no
+FROM   enrol
+WHERE  enr_grade > ALL (SELECT      AVG(b.enr_grade)
+                        FROM        student a, enrol b
+                        WHERE       a.stu_no = b.stu_no
+                        GROUP BY    a.stu_dept) ;                      
+SELECT stu_no
+FROM   enrol
+WHERE  enr_grade > (SELECT      MAX(AVG(b.enr_grade))
+                    FROM        student a, enrol b
+                    WHERE       a.stu_no = b.stu_no
+                    GROUP BY    a.stu_dept) ;
+--28
+SELECT      a.stu_dept, max(b.enr_grade)
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+GROUP BY    a.stu_dept
+HAVING      MAX(b.enr_grade) > (SELECT  MAX(b.enr_grade)
+                                FROM    student a, enrol b
+                                WHERE   a.stu_no = b.stu_no
+                                AND     a.stu_dept = '기계') ;  
+SELECT  MAX(b.enr_grade)
+FROM    student a, enrol b
+WHERE   a.stu_no = b.stu_no
+AND     a.stu_dept = '기계' ;
+
+SELECT      a.stu_dept, max(b.enr_grade)
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+GROUP BY    a.stu_dept ;
+
+--29
+SELECT      a.stu_no, a.stu_name, AVG(b.enr_grade)
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+AND         a.stu_dept = '컴퓨터정보'
+GROUP BY    a.stu_no, a.stu_name
+ORDER BY    3 DESC; 
+
+SELECT      a.stu_no, a.stu_name, AVG(b.enr_grade)
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+WHERE       a.stu_dept = '컴퓨터정보'
+GROUP BY    a.stu_no, a.stu_name
+ORDER BY    3 DESC;
+
+SELECT      a.stu_no, a.stu_name, AVG(b.enr_grade)
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+WHERE       a.stu_dept = '컴퓨터정보'
+GROUP BY    a.stu_no, a.stu_name
+ORDER BY    3 DESC; 
+--30
+SELECT      a.stu_no, a.stu_name, b.enr_grade
+FROM        student a, enrol b, subject c
+WHERE       a.stu_no = b.stu_no
+AND         b.sub_no = c.sub_no
+AND         c.sub_name = '시스템분석설계'
+ORDER BY    3 DESC ;
+
+SELECT      a.stu_no, a.stu_name, b.enr_grade
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+JOIN        subject c
+ON          (b.sub_no = c.sub_no)
+WHERE       c.sub_name = '시스템분석설계'
+ORDER BY    3 DESC ;
+--31
+SELECT      a.stu_no, a.stu_name, COUNT(b.sub_no)
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+GROUP BY    a.stu_no, a.stu_name
+HAVING      COUNT(b.sub_no) >= 2
+ORDER BY    3 DESC ; 
+--32
+SELECT      a.stu_dept, a.stu_no, a.stu_name, COUNT(b.sub_no) 
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+GROUP BY    a.stu_dept, a.stu_no, a.stu_name
+HAVING      COUNT(b.sub_no) = 1
+ORDER BY    a.stu_dept, a.stu_no ; 
+
+--33
+SELECT      a.stu_no, a.stu_name, AVG(b.enr_grade)
+FROM        student a, enrol b
+WHERE       a.stu_no = b.stu_no
+GROUP BY    a.stu_no, a.stu_name 
+HAVING      AVG(b.enr_grade)= (SELECT      MAX(AVG(b.enr_grade))
+                                FROM        student a, enrol b
+                                WHERE       a.stu_no = b.stu_no
+                                AND         a.stu_dept = '컴퓨터정보'
+                                GROUP BY    a.stu_no) ;
+
+
+--34
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a, enrol b, subject c
+WHERE       a.stu_no = b.stu_no
+AND         b.sub_no = c.sub_no
+AND         sub_name IN ('컴퓨터개론','시스템분석설계')
+ORDER BY    1 ;
+
+SELECT      a.stu_no, a.stu_name, c.sub_name
+FROM        student a
+JOIN        enrol b
+ON          (a.stu_no = b.stu_no)
+JOIN        subject c
+ON          (b.sub_no = c.sub_no)
+WHERE       sub_name IN ('컴퓨터개론','시스템분석설계')
+ORDER BY    a.stu_no ;   
